@@ -1,31 +1,38 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: singwa
+ * Date: 2019-11-19
+ * Time: 08:58
+ */
 namespace app\controller;
 
 use app\BaseController;
+use think\facade\Db;
+use app\common\lib\Snowflake;
+class Demo extends BaseController {
 
-class Demo extends BaseController
-{
-    public function show()
-    {
-        $request = [
-        	'status' => 1,
-        	'message' => 'success',
-        	'result' => [
-        		'id' =>11
-        	],
+    public function show() {
+
+        $result  = [
+            "status" => 1,
+            "message" => "OK",
+            "result" => [
+                'id' => 1,
+            ],
         ];
+
         $header = [
-        	'Token' =>'2313'
+            "Token" => "e23gdt55",
         ];
-    	return json($request,201,$header);
+        // json
+        return json($result, 201, $header);
     }
 
-    public function request()
-    {
-    	$this->request->get();
-    	$this->request->post();
-        dump($this->request->param('name','meimei','string'));//第一种方式
-        dump($this->request->param('b'));
-        dump(input());
+    public function request() {
+        // 第一种获取方式
+        dump($this->request->param("abc", 1, "intval"));
     }
+
+
 }

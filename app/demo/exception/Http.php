@@ -1,16 +1,19 @@
 <?php
-namespace app\demo\exception;
+/**
+ * Created by singwa
+ * User: singwa
+ * motto: 现在的努力是为了小时候吹过的牛逼！
+ * Time: 07:49
+ */
 
+namespace app\demo\exception;
 use think\exception\Handle;
 use think\Response;
 use Throwable;
-/**
- * 
- */
-class Http extends Handle
-{
-	public $httpStatus = 500;
-	
+
+class Http extends Handle {
+
+    public $httpStatus = 500;
     /**
      * Render an exception into an HTTP response.
      *
@@ -21,7 +24,12 @@ class Http extends Handle
      */
     public function render($request, Throwable $e): Response
     {
+        if(method_exists($e, "getStatusCode")) {
+            $httpStatus = $e->getStatusCode();
+        } else {
+            $httpStatus = $this->httpStatus;
+        }
         // 添加自定义异常处理机制
-        return show(config("status.error"),$e->getMessage(),[],$httpStatus);
+        return show(config("status.error"), $e->getMessage(), [], $httpStatus);
     }
 }

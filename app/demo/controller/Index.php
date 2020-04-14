@@ -1,26 +1,42 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: singwa
+ * Date: 2019-11-26
+ * Time: 09:01
+ */
 namespace app\demo\controller;
 
+
 use app\BaseController;
-use app\common\business\Demo;
+use app\common\lib\Snowflake;
+use think\facade\Cache;
 
-class Index extends BaseController
-{
-    public function index()
-    {
-    	$categoryId = $this->request->param("category_id","0","intval");
-    	if (empty($categoryId)) {
- 			return show(config("status.error"),"参数错误");
-    	}
-    	// $limit = 10;
- 		$demo = new Demo();
- 		$result = $demo->getDemoDataByCategoryId($categoryId,$limit);
- 		return show(config("status.success"),"ok",$result);
+class Index extends BaseController {
 
+    public function abc() {
+        $result = Cache::zRange("order_status", 0, -1);
+        dump($result);exit;
+        return 123456;
     }
 
-    public function hello($name = 'ThinkPHP6')
-    {
-        return 'hello,' . $name;
+    public function hello() {
+        return time();
+    }
+    public function test() {
+        $workId = rand(1, 1023);
+        $orderId = Snowflake::getInstance()->setWorkId($workId)->id();
+        dump($orderId);exit;
+    }
+
+    public function abcd () {
+        $key = "x";
+
+        if(empty($data)) {
+            $data = [];
+        }
+        $costtime = 12.1;
+        $data[$key]["pv"]++;
+        $data[$key]["cost_time"] += $costtime;
     }
 }

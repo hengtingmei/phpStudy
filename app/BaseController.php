@@ -72,7 +72,7 @@ abstract class BaseController
         } else {
             if (strpos($validate, '.')) {
                 // 支持场景
-                [$validate, $scene] = explode('.', $validate);
+                list($validate, $scene) = explode('.', $validate);
             }
             $class = false !== strpos($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
             $v     = new $class();
@@ -91,17 +91,22 @@ abstract class BaseController
         return $v->failException(true)->check($data);
     }
 
-    public function __call($name,$arguments){
-        // dump($name);
-        // dump($arguments);
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement __call() method.
+        //dump($name);
+        //dump($arguments);
+        // 逻辑: 如果我们得模块是API模块，需要输出API的数据格式
+        //      如果我们是模板引擎的方式
 
-        //api
-        // $result = [
-        //     'status' => 0,
-        //     'message' => '找不到该方法',
-        //     'result' => null,
-        // ];
-        return show(config("status.action_not_found"),"找不到{name}方法",400);
+//        $result = [
+//            'status' => 0,
+//            'message' => "找不到该{$name}方法",
+//            'result' => null,
+//        ];
+//        return json($result, 400);
+        return show(config("status.action_not_found"), "找不到该{$name}方法", null, 404);
+
     }
 
 }

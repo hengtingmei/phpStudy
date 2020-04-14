@@ -1,18 +1,22 @@
 <?php
+/**
+ * Created by singwa
+ * User: singwa
+ * motto: 现在的努力是为了小时候吹过的牛逼！
+ * Time: 07:55
+ */
 namespace app\admin\controller;
-
-use app\BaseController;
 use think\facade\View;
-class index extends AdminBase
-{
-    public function index()
-    {
-        return View::fetch();
-        // echo "hello-admin";
-    }
-    
-    public function welcome(){
+
+class Index extends AdminBase {
+    public function index() {
+        ///return redirect(url("login/index"));
+        //echo "hello-admin";
         return View::fetch();
 
+    }
+
+    public function welcome() {
+        return View::fetch();
     }
 }

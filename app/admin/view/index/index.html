@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="{__STATIC_PATH}admin/images/favicon.ico">
+    <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="{__STATIC_PATH}admin/lib/layui-v2.5.4/css/layui.css" media="all">
     <link rel="stylesheet" href="{__STATIC_PATH}admin/css/layuimini.css" media="all">
     <link rel="stylesheet" href="{__STATIC_PATH}admin/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
@@ -94,7 +94,7 @@
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
-                window.location = '{:url("Logout/index")}';
+                window.location = '/admin/logout/index';
             });
         });
     });

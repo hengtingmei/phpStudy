@@ -4,5 +4,6 @@ use app\Request;
 
 // 容器Provider定义文件
 return [
-    // 'think\exception\Handle' => 'app\\demo\\exception\\Http',
+
+    'think\exception\Handle' => 'app\\demo\\exception\\Http',
 ];
