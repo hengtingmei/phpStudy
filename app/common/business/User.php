@@ -18,6 +18,18 @@ class User {
     }
 
     public function login($data) {
+        switch ($data['type']) {
+            case '1':
+                # code...
+                break;
+            case '2':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
         $redisCode = cache(config("redis.code_pre").$data['phone_number']);
         if(empty($redisCode) || $redisCode  != $data['code']) {
             throw new \think\Exception("不存在该验证码", -1009);

@@ -2,3 +2,4 @@
 /.vscode
 *.log
 public/upload/
+runtime/
