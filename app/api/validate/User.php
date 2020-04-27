@@ -13,11 +13,13 @@ use think\Validate;
 class User extends  Validate {
     protected $rule = [
         'username' => 'require',
+        'password' => 'require',
         'phone_number' => 'require',
         'code'  =>  'require|number|min:4',
         //'type' => 'require|in:1,2',
         'type' => ["require", "in"=>"1,2"], // 两种不同的方式而已
         'sex' => ["require", "in"=>"0,1,2"],
+        'captcha' => 'require|checkCapcha'
     ];
 
     protected $message = [
@@ -36,5 +38,14 @@ class User extends  Validate {
         'send_code' => ['phone_number'],
         'login' => ['phone_number', 'code', 'type'],
         'update_user' => ['username', 'sex'],
+        'username_login' => ['username','password'],
     ];
+
+    protected function checkCapcha($value, $rule, $data = []) {
+        if(!captcha_check($value)) {
+            return "您输入的验证码不正确！";
+        }
+
+        return true;
+    }
 }

@@ -18,58 +18,63 @@ class User {
     }
 
     public function login($data) {
-        switch ($data['type']) {
-            case '1':
-                # code...
+        switch ($data['ltype']) {
+            case '0': // 手机号验证码登录
+                // 短信验证验证
+                $redisCode = cache(config("redis.code_pre").$data['phone_number']);
+                if(empty($redisCode) || $redisCode  != $data['code']) {
+                    throw new \think\Exception("不存在该验证码", -1009);
+                }
+
+                // 用户信息
+                $user = $this->userObj->getUserByPhoneNumber($data['phone_number']);
+
+                // 需要去判断表 是否有 用户记录   phone_number
+                // 生成token
+                if(!$user) {
+                    $username = "singwa粉-".$data['phone_number'];
+                    $userData = [
+                        'username' => $username,
+                        'phone_number' => $data['phone_number'],
+                        'type' => $data['type'],
+                        'status' => config('status.mysql.table_normal'),
+
+                    ];
+                    try {
+                        $this->userObj->save($userData);
+                        $userId = $this->userObj->id;
+                    }catch (\Exception $e) {
+                        throw new \think\Exception("数据库内部异常");
+                    }
+
+                } else {
+                    $userId = $user->id;
+                    $username = $user->username;
+                }
                 break;
-            case '2':
-                # code...
-                break;
-            
-            default:
-                # code...
+            case '1': // 用户名密码登录
+                // 用户信息
+                $user = $this->userObj->getUserByUsername($data['username']);
+                if(!$user) {
+                     throw new \think\Exception("用户不存在");
+                }
+
+                if($user['password'] != md5($data['password']."_htm")) {
+                    throw new \think\Exception("输入的密码错误");
+                }
+
+                $userId = $user->id;
+                $username = $user->username;
                 break;
         }
-        $redisCode = cache(config("redis.code_pre").$data['phone_number']);
-        if(empty($redisCode) || $redisCode  != $data['code']) {
-            throw new \think\Exception("不存在该验证码", -1009);
-        }
-        // 需要去判断表 是否有 用户记录   phone_number
-        // 生成token
-        $user = $this->userObj->getUserByPhoneNumber($data['phone_number']);
-        if(!$user) {
-            //
-            $username = "singwa粉-".$data['phone_number'];
-            $userData = [
-                'username' => $username,
-                'phone_number' => $data['phone_number'],
-                'type' => $data['type'],
-                'status' => config('status.mysql.table_normal'),
 
-            ];
-            try {
-                $this->userObj->save($userData);
-                $userId = $this->userObj->id;
-            }catch (\Exception $e) {
-                throw new \think\Exception("数据库内部异常");
-            }
-
-        } else {
-            // 更新表 。 留给大家的作用， 需要去更新表数据。
-            $userId = $user->id;
-            $username = $user->username;
-
-        }
-
-        $token = Str::getLoginToken($data['phone_number']);
+        $token = Str::getLoginToken($userId);
         $redisData = [
             "id" => $userId,
             "username" => $username,
         ];
 
         $res = cache(config("redis.token_pre").$token, $redisData, Time::userLoginExpiresTime($data['type']));
-
-
         return $res ? ["token" => $token, "username" => $username] : false;
     }
 

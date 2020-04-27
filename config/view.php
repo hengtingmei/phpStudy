@@ -24,6 +24,6 @@ return [
     'taglib_end'    => '}',
 
     'tpl_replace_string' => [
-        '{__STATIC_PATH}' => '/public/static/',
+        '{__STATIC_PATH}' => '/static/',
     ],
 ];

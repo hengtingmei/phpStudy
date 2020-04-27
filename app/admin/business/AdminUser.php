@@ -35,11 +35,11 @@ class AdminUser {
         // 更新表的数据
         $updateData = [
             "last_login_time" => time(),
-            "last_login_ip" => requset()->ip(),
+            "last_login_ip" => request()->ip(),
             "update_time" => time()
-        ]
+        ];
         $res = $this->userModelObj->updateById($user['id'], $updateData);
-        return $res;
+        return true;
     }
 
     public function getAdminUserByUsername($username) {

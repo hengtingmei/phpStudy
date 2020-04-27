@@ -43,7 +43,14 @@ class User extends AuthBase {
         if(!$user) {
             return show(config('status.error'), "更新失败");
         }
+
         // 如果用户名被修改、redis里面的数据也需要同步一下 这个留给大家一个作业。
+        $redisData = [
+            'id' => $user['id'],
+            'username' => $username,
+        ];
+        cache(config("redis.token_pre").$this->accessToken, $redisData, Time::userLoginExpiresTime($user['type']));
+        
         return show(1, "ok");
     }
 

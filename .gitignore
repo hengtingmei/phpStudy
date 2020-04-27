@@ -3,3 +3,4 @@
 *.log
 public/upload/
 runtime/
+public/admin_dev/node_modules/
