@@ -1,0 +1,43 @@
+查看状态
+git status
+文件加入缓存
+git add ./update_sql.sql
+提交
+git commit -m "堂扫文案修改"
+推送
+git push origin dev
+所有文件加入缓存
+git add .
+
+
+
+哈客上线代码流程-香港站到测试站再到正式站
+
+1.香港站o2o_master目录  git checkout release
+2.将代码放到o2o_master
+3.git add 要提交的文件
+4.git commit -m "堂扫取餐描述设置默认值"
+5.git push origin release
+
+测试站-测试 git pull 拉取代码
+
+测试完毕上线流程
+1.香港站o2o_master目录  git checkout master
+2.先拉取 git pull
+3.git cherry-pick 刚刚提交的commitId（通过 git log 查看）
+4.git push origin master
+5.正式站/data/www/hark  git pull
+6.正式站测试
+git cherry-pick 6d365031401ca24cbbcefd0da6eae467ab4c551d
+git cherry-pick fbd174e0860d5efc6f9cf3dad1fad391f02f0062
+
+备注：
+1.账号密码： zhangtao/zhangtao
+
+
+
+git clone http://git.harkhark.cn/harkhark/hark-v6.git
+
+git commit -m "堂扫退款金额显示问题以及节日服务费计算错误"
+
+07085345597
